@@ -141,9 +141,5 @@ else
     echo -e "${RED}❌ Push cancelled.${RESET}"
 fi
 
-log_file="git-ninja-$(date +%Y%m%d).log"
-timestamp=$(date +"%Y-%m-%d %H:%M:%S")
-echo "$(date): Repository: $repo_name, Branch: $current_branch" >> "$log_file"
-
 echo -e "✅ ${GREEN}All tasks completed successfully at ${CYAN}$timestamp${RESET}"
 echo -e "${MAGENTA}🎉 Mission Accomplished! Keep coding like a ninja! 🚀${RESET}"
