@@ -14,8 +14,8 @@ ALIAS_NAME="git-ninja"
 
 echo -e "${BOLD}🔧 Installing Git Ninja for global usage...${RESET}"
 
-echo -e "🌐 Downloading Git Ninja script from $REPO_URL/$SCRIPT_NAME..."
-curl -fsSL "$REPO_URL/$SCRIPT_NAME" -o "$SCRIPT_NAME"
+echo -e "🌐 Downloading Git Ninja script from $REPO_URL..."
+curl -fsSL "$REPO_URL" -o "$SCRIPT_NAME"
 
 if [[ ! -f "$SCRIPT_NAME" ]]; then
     echo -e "${RED}❌ Error:${RESET} Unable to download '$SCRIPT_NAME'."
