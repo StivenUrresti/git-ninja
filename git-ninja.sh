@@ -40,7 +40,6 @@ stop_loading() {
 
 clear
 cat << "EOF"
-${CYAN}${BOLD}
  ________  ___  _________        ________   ___  ________         ___  ________     
 |\   ____\|\  \|\___   ___\     |\   ___  \|\  \|\   ___  \      |\  \|\   __  \    
 \ \  \___|\ \  \|___ \  \_|     \ \  \\ \  \ \  \ \  \\ \  \     \ \  \ \  \|\  \   
@@ -48,10 +47,8 @@ ${CYAN}${BOLD}
   \ \  \|\  \ \  \   \ \  \       \ \  \\ \  \ \  \ \  \\ \  \|\  \\_\  \ \  \ \  \ 
    \ \_______\ \__\   \ \__\       \ \__\\ \__\ \__\ \__\\ \__\ \________\ \__\ \__\
     \|_______|\|__|    \|__|        \|__| \|__|\|__|\|__| \|__|\|________|\|__|\|__|
-                                                                                    
-${RESET}
 
-${MAGENTA}Silent as a shadow, swift as the wind. Automate Git like a true ninja! ⚡${RESET}
+Silent as a shadow, swift as the wind. Automate Git like a true ninja! ⚡
 EOF
 
 echo -e "🔥 ${GREEN}${BOLD}Welcome to Git Ninja!${RESET} 🚀"
