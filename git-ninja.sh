@@ -50,8 +50,7 @@ cat << "EOF"
                                                                 
 EOF
 
-Silent as a shadow, swift as the wind. Automate Git like a true ninja! ⚡
-EOF
+echo -e "Silent as a shadow, swift as the wind. Automate Git like a true ninja! ⚡"
 
 echo -e "🔥 ${GREEN}${BOLD}Welcome to Git Ninja!${RESET} 🚀"
 echo -e "${CYAN}Streamline your commits, branches, and more with ease.${RESET}"
