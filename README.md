@@ -7,7 +7,7 @@ Git Ninja es una herramienta mejorada para hacer commits en Git. Facilita y opti
 Para instalar Git Ninja, ejecuta el siguiente comando en tu terminal:
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/StivenUrresti/git-ninja/master/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/StivenUrresti/git-ninja/master/install.sh | sudo bash
 ```
 
 ## Uso
