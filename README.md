@@ -1,4 +1,4 @@
-Sure! Here's an improved and more catchy version of your README in English, inspired by the ninja theme:
+Here's the updated version without the license section:
 
 ---
 
@@ -28,10 +28,4 @@ Check out the documentation for more details on available commands and features.
 
 Got ideas to improve Git Ninja? We welcome your contributions! Open an issue or submit a pull request on the [official repository](https://github.com/StivenUrresti/git-ninja).
 
-## License 📜
-
-This project is licensed under the MIT License. See the `LICENSE` file for more information.
-
 ---
-
-This version uses a ninja theme with playful emojis, a more engaging tone, and a slightly more polished structure. It should make it more exciting for developers to use and contribute to!
