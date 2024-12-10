@@ -8,7 +8,7 @@ BOLD="\033[1m"
 RESET="\033[0m"
 
 # URL del repositorio en GitHub (modifica con tu URL)
-REPO_URL="https://raw.githubusercontent.com/tuusuario/git-ninja/main"
+REPO_URL="https://github.com/StivenUrresti/git-ninja/blob/master/git-ninja.sh"
 
 # Nombre del script principal
 SCRIPT_NAME="git-ninja.sh"
