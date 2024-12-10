@@ -12,7 +12,13 @@ curl -fsSL https://raw.githubusercontent.com/StivenUrresti/git-ninja/master/inst
 
 ## Uso
 
-Después de la instalación, puedes usar Git Ninja para realizar commits de manera más rápida y sencilla. Consulta la documentación para obtener más detalles sobre las funcionalidades y opciones disponibles.
+Después de la instalación, puedes usar Git Ninja para realizar commits de manera más rápida y sencilla. Para ejecutar Git Ninja, utiliza el siguiente comando:
+
+```sh
+git-ninja
+```
+
+Consulta la documentación para obtener más detalles sobre las funcionalidades y opciones disponibles.
 
 ## Contribuir
 
