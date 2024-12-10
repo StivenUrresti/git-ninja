@@ -37,7 +37,7 @@ stop_loading() {
     printf "\r${GREEN}${BOLD}✔ $1${RESET}\n"
 }
 
-# Mostrar un banner
+
 clear
 cat << "EOF"
 ${CYAN}${BOLD}
