@@ -1,6 +1,4 @@
-Here's the updated version without the license section:
 
----
 
 # Git Ninja 🥷
 
