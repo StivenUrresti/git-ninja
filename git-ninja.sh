@@ -12,7 +12,6 @@ MAGENTA="\033[35m"
 BOLD="\033[1m"
 RESET="\033[0m"
 
-# Animaciones
 loading_animation() {
     local msg=$1
     local delay=0.1
@@ -25,7 +24,6 @@ loading_animation() {
     done
 }
 
-# Carga con mensaje
 start_loading() {
     loading_animation "$1" &
     LOADING_PID=$!
@@ -140,5 +138,5 @@ else
     echo -e "${RED}❌ Push cancelled.${RESET}"
 fi
 
-echo -e "✅ ${GREEN}All tasks completed successfully at ${CYAN}$timestamp${RESET}"
+echo -e "✅ ${GREEN}All tasks completed successfully"
 echo -e "${MAGENTA}🎉 Mission Accomplished! Keep coding like a ninja! 🚀${RESET}"
