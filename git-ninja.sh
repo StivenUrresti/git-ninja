@@ -1,0 +1,161 @@
+#!/bin/bash
+
+# ============================
+# Git Ninja - Automate Git Like a Pro!
+# ============================
+
+# Colores y estilos
+RED="\033[31m"
+GREEN="\033[32m"
+YELLOW="\033[33m"
+CYAN="\033[36m"
+MAGENTA="\033[35m"
+BOLD="\033[1m"
+RESET="\033[0m"
+
+# Animaciones
+loading_animation() {
+    local msg=$1
+    local delay=0.1
+    local spinner=( '🌑' '🌒' '🌓' '🌔' '🌕' '🌖' '🌗' '🌘' )
+    while true; do
+        for i in "${spinner[@]}"; do
+            printf "\r${MAGENTA}${BOLD}$i $msg${RESET}"
+            sleep $delay
+        done
+    done
+}
+
+# Carga con mensaje
+start_loading() {
+    loading_animation "$1" &
+    LOADING_PID=$!
+    disown
+}
+
+# Detener animación
+stop_loading() {
+    kill "$LOADING_PID" > /dev/null 2>&1
+    printf "\r${GREEN}${BOLD}✔ $1${RESET}\n"
+}
+
+# Mostrar un banner
+clear
+cat << "EOF"
+${CYAN}${BOLD}
+ ________  ___  _________        ________   ___  ________         ___  ________     
+|\   ____\|\  \|\___   ___\     |\   ___  \|\  \|\   ___  \      |\  \|\   __  \    
+\ \  \___|\ \  \|___ \  \_|     \ \  \\ \  \ \  \ \  \\ \  \     \ \  \ \  \|\  \   
+ \ \  \  __\ \  \   \ \  \       \ \  \\ \  \ \  \ \  \\ \  \  __ \ \  \ \   __  \  
+  \ \  \|\  \ \  \   \ \  \       \ \  \\ \  \ \  \ \  \\ \  \|\  \\_\  \ \  \ \  \ 
+   \ \_______\ \__\   \ \__\       \ \__\\ \__\ \__\ \__\\ \__\ \________\ \__\ \__\
+    \|_______|\|__|    \|__|        \|__| \|__|\|__|\|__| \|__|\|________|\|__|\|__|
+                                                                                    
+${RESET}
+
+${MAGENTA}Silent as a shadow, swift as the wind. Automate Git like a true ninja! ⚡${RESET}
+EOF
+
+echo -e "🔥 ${GREEN}${BOLD}Welcome to Git Ninja!${RESET} 🚀"
+echo -e "${CYAN}Streamline your commits, branches, and more with ease.${RESET}"
+
+set -e
+
+# Configuración de ramas válidas
+VALID_BRANCHES=("main" "master" "dev")
+
+# Comenzar operación
+start_loading "Fetching repository information..."
+repo_name=$(basename "$(git rev-parse --show-toplevel)")
+remote_url=$(git remote get-url origin)
+current_branch=$(git rev-parse --abbrev-ref HEAD)
+stop_loading "Repository information retrieved"
+
+echo -e "🗂️  ${CYAN}Repository:${RESET} $repo_name"
+echo -e "🌐 ${CYAN}Remote URL:${RESET} $remote_url"
+echo -e "🔢 ${CYAN}Current branch:${RESET} $current_branch"
+
+# Validar rama actual
+if [[ ! " ${VALID_BRANCHES[@]} " =~ " ${current_branch} " ]]; then
+    echo -e "${YELLOW}⚠️  Warning:${RESET} You are not on a valid branch (${VALID_BRANCHES[*]})."
+    read -p "Do you want to proceed anyway? (y/n) [y]: " proceed
+    proceed=${proceed:-y}
+    if [[ "$proceed" != "y" ]]; then
+        echo -e "${RED}❌ Exiting.${RESET} Please switch to one of the valid branches."
+        exit 1
+    fi
+fi
+
+# Manejar archivos no rastreados
+untracked_files=$(git ls-files --others --exclude-standard)
+if [[ -n "$untracked_files" ]]; then
+    echo -e "${YELLOW}⚠️  Untracked files detected:${RESET}"
+    echo "$untracked_files"
+    read -p "Do you want to add them to staging? (y/n) [n]: " add_untracked
+    add_untracked=${add_untracked:-n}
+    if [[ "$add_untracked" == "y" ]]; then
+        git add $untracked_files
+        echo -e "${GREEN}✅ Untracked files added to staging.${RESET}"
+    else
+        echo -e "${RED}❌ Skipping untracked files.${RESET}"
+    fi
+fi
+
+# Manejar cambios no preparados
+unstaged_changes=$(git diff --stat)
+if [[ -n "$unstaged_changes" ]]; then
+    echo -e "${YELLOW}⚠️  Unstaged changes detected:${RESET}"
+    echo "$unstaged_changes"
+    read -p "Do you want to stage them? (y/n) [y]: " stage_changes
+    stage_changes=${stage_changes:-y}
+    if [[ "$stage_changes" == "y" ]]; then
+        git add .
+        echo -e "${GREEN}✅ Changes staged.${RESET}"
+    else
+        echo -e "${RED}❌ Skipping unstaged changes.${RESET}"
+        exit 1
+    fi
+fi
+
+uncommitted_changes=$(git diff --cached --stat)
+if [[ -n "$uncommitted_changes" ]]; then
+    echo -e "${YELLOW}⚠️  Uncommitted changes detected:${RESET}"
+    echo "$uncommitted_changes"
+    read -p "Do you want to commit them? (y/n) [y]: " commit_changes
+    commit_changes=${commit_changes:-y}
+    if [[ "$commit_changes" == "y" ]]; then
+        read -p "Enter your commit message: " user_commit_message
+        git commit -m "$user_commit_message"
+        echo -e "${GREEN}✅ Changes committed.${RESET}"
+    else
+        echo -e "${RED}❌ Commit cancelled.${RESET}"
+        exit 1
+    fi
+fi
+
+# Agregar etiquetas
+read -p "🔖 Do you want to tag this commit? (Optional, press Enter to skip): " tag
+if [[ -n "$tag" ]]; then
+    git tag "$tag"
+    echo -e "${GREEN}✅ Tag '${BOLD}$tag${RESET}${GREEN}' added to commit.${RESET}"
+fi
+
+# Push a remoto
+read -p "⬆️  Push changes to remote? (y/n) [y]: " push_changes
+push_changes=${push_changes:-y}
+if [[ "$push_changes" == "y" ]]; then
+    start_loading "Pushing changes to remote..."
+    git push
+    stop_loading "Changes pushed successfully"
+else
+    echo -e "${RED}❌ Push cancelled.${RESET}"
+fi
+
+# Registrar historial de operaciones
+log_file="git-ninja-$(date +%Y%m%d).log"
+timestamp=$(date +"%Y-%m-%d %H:%M:%S")
+echo "$(date): Repository: $repo_name, Branch: $current_branch" >> "$log_file"
+
+# Salida final
+echo -e "✅ ${GREEN}All tasks completed successfully at ${CYAN}$timestamp${RESET}"
+echo -e "${MAGENTA}🎉 Mission Accomplished! Keep coding like a ninja! 🚀${RESET}"
