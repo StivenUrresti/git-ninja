@@ -4,7 +4,6 @@
 # Git Ninja - Automate Git Like a Pro!
 # ============================
 
-# Colores y estilos
 RED="\033[31m"
 GREEN="\033[32m"
 YELLOW="\033[33m"
@@ -33,7 +32,6 @@ start_loading() {
     disown
 }
 
-# Detener animación
 stop_loading() {
     kill "$LOADING_PID" > /dev/null 2>&1
     printf "\r${GREEN}${BOLD}✔ $1${RESET}\n"
@@ -61,10 +59,8 @@ echo -e "${CYAN}Streamline your commits, branches, and more with ease.${RESET}"
 
 set -e
 
-# Configuración de ramas válidas
 VALID_BRANCHES=("main" "master" "dev")
 
-# Comenzar operación
 start_loading "Fetching repository information..."
 repo_name=$(basename "$(git rev-parse --show-toplevel)")
 remote_url=$(git remote get-url origin)
@@ -75,7 +71,6 @@ echo -e "🗂️  ${CYAN}Repository:${RESET} $repo_name"
 echo -e "🌐 ${CYAN}Remote URL:${RESET} $remote_url"
 echo -e "🔢 ${CYAN}Current branch:${RESET} $current_branch"
 
-# Validar rama actual
 if [[ ! " ${VALID_BRANCHES[@]} " =~ " ${current_branch} " ]]; then
     echo -e "${YELLOW}⚠️  Warning:${RESET} You are not on a valid branch (${VALID_BRANCHES[*]})."
     read -p "Do you want to proceed anyway? (y/n) [y]: " proceed
@@ -86,7 +81,6 @@ if [[ ! " ${VALID_BRANCHES[@]} " =~ " ${current_branch} " ]]; then
     fi
 fi
 
-# Manejar archivos no rastreados
 untracked_files=$(git ls-files --others --exclude-standard)
 if [[ -n "$untracked_files" ]]; then
     echo -e "${YELLOW}⚠️  Untracked files detected:${RESET}"
@@ -101,7 +95,6 @@ if [[ -n "$untracked_files" ]]; then
     fi
 fi
 
-# Manejar cambios no preparados
 unstaged_changes=$(git diff --stat)
 if [[ -n "$unstaged_changes" ]]; then
     echo -e "${YELLOW}⚠️  Unstaged changes detected:${RESET}"
@@ -133,14 +126,12 @@ if [[ -n "$uncommitted_changes" ]]; then
     fi
 fi
 
-# Agregar etiquetas
 read -p "🔖 Do you want to tag this commit? (Optional, press Enter to skip): " tag
 if [[ -n "$tag" ]]; then
     git tag "$tag"
     echo -e "${GREEN}✅ Tag '${BOLD}$tag${RESET}${GREEN}' added to commit.${RESET}"
 fi
 
-# Push a remoto
 read -p "⬆️  Push changes to remote? (y/n) [y]: " push_changes
 push_changes=${push_changes:-y}
 if [[ "$push_changes" == "y" ]]; then
@@ -151,11 +142,9 @@ else
     echo -e "${RED}❌ Push cancelled.${RESET}"
 fi
 
-# Registrar historial de operaciones
 log_file="git-ninja-$(date +%Y%m%d).log"
 timestamp=$(date +"%Y-%m-%d %H:%M:%S")
 echo "$(date): Repository: $repo_name, Branch: $current_branch" >> "$log_file"
 
-# Salida final
 echo -e "✅ ${GREEN}All tasks completed successfully at ${CYAN}$timestamp${RESET}"
 echo -e "${MAGENTA}🎉 Mission Accomplished! Keep coding like a ninja! 🚀${RESET}"

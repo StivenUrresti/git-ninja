@@ -1,47 +1,57 @@
 #!/bin/bash
 
-# Colores para mensajes del instalador
 GREEN="\033[32m"
 YELLOW="\033[33m"
 RED="\033[31m"
 BOLD="\033[1m"
 RESET="\033[0m"
 
-# URL del repositorio en GitHub (modifica con tu URL)
 REPO_URL="https://github.com/StivenUrresti/git-ninja/blob/master/git-ninja.sh"
 
-# Nombre del script principal
 SCRIPT_NAME="git-ninja.sh"
 INSTALL_PATH="/usr/local/bin/git-ninja"
+ALIAS_NAME="git-ninja"
 
 echo -e "${BOLD}🔧 Installing Git Ninja for global usage...${RESET}"
 
-# Verificar si el archivo principal existe en la URL
 echo -e "🌐 Downloading Git Ninja script from $REPO_URL/$SCRIPT_NAME..."
 curl -fsSL "$REPO_URL/$SCRIPT_NAME" -o "$SCRIPT_NAME"
 
-# Verificar si el archivo se descargó correctamente
 if [[ ! -f "$SCRIPT_NAME" ]]; then
     echo -e "${RED}❌ Error:${RESET} Unable to download '$SCRIPT_NAME'."
     exit 1
 fi
 
-# Verificar permisos de administrador
 if [[ "$EUID" -ne 0 ]]; then
     echo -e "${YELLOW}⚠️ Warning:${RESET} This installer needs administrative privileges."
     echo -e "👉 Run with 'sudo': ${BOLD}sudo ./install.sh${RESET}"
     exit 1
 fi
 
-# Copiar el script al PATH global
 echo "📂 Copying '$SCRIPT_NAME' to '$INSTALL_PATH'..."
 sudo cp "$SCRIPT_NAME" "$INSTALL_PATH"
 
-# Asegurarse de que sea ejecutable
 echo "🔧 Setting executable permissions..."
 sudo chmod +x "$INSTALL_PATH"
 
-# Confirmación de instalación
+if [[ -f ~/.bashrc ]]; then
+    CONFIG_FILE="$HOME/.bashrc"
+elif [[ -f ~/.zshrc ]]; then
+    CONFIG_FILE="$HOME/.zshrc"
+else
+    echo -e "${RED}❌ Error:${RESET} Could not find a valid shell configuration file."
+    exit 1
+fi
+
+echo -e "\n# Git Ninja alias" >> "$CONFIG_FILE"
+echo "alias git-ninja='bash $INSTALL_PATH'" >> "$CONFIG_FILE"
+
+echo -e "${GREEN}✅ Alias 'git-ninja' added to your shell configuration file!${RESET}"
+echo -e "👉 You can now use the command: '${BOLD}git-ninja${RESET}'"
+
+echo -e "🔄 Reloading shell configuration..."
+source "$CONFIG_FILE"
+
 if [[ -f "$INSTALL_PATH" ]]; then
     echo -e "${GREEN}✅ Git Ninja installed globally!${RESET}"
     echo -e "👉 You can now use it by typing '${BOLD}git-ninja${RESET}' in your terminal."
