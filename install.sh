@@ -6,7 +6,7 @@ RED="\033[31m"
 BOLD="\033[1m"
 RESET="\033[0m"
 
-REPO_URL="https://raw.githubusercontent.com/StivenUrresti/git-ninja/master/git-ninja.sh"
+REPO_URL="https://raw.githubusercontent.com/StivenUrresti/git-ninja/master/install.sh"
 
 SCRIPT_NAME="git-ninja.sh"
 INSTALL_PATH="/usr/local/bin/git-ninja"
