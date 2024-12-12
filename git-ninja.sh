@@ -35,7 +35,7 @@ stop_loading() {
     printf "\r${GREEN}${BOLD}✔ $1${RESET}\n"
 }
 
-
+# Clear screen and print header
 clear
 cat << EOF
 
@@ -49,11 +49,22 @@ cat << EOF
 EOF
 
 echo -e "Silent as a shadow, swift as the wind. Automate Git like a true ninja! ⚡"
-
 echo -e "🔥 ${GREEN}${BOLD}Welcome to Git Ninja!${RESET} 🚀"
 echo -e "${CYAN}Streamline your commits, branches, and more with ease.${RESET}"
 
 set -e
+
+# Check if the current directory is a Git repository
+if ! git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
+    echo -e "${RED}❌ Error:${RESET} This is not a Git repository."
+    exit 1
+fi
+
+# Check if a remote repository is configured
+if ! git remote get-url origin > /dev/null 2>&1; then
+    echo -e "${RED}❌ Error:${RESET} No remote repository configured. Please add a remote origin first."
+    exit 1
+fi
 
 VALID_BRANCHES=("main" "master" "dev")
 
