@@ -151,6 +151,5 @@ else
     echo -e "${RED}❌ Push cancelled.${RESET}"
 fi
 
-
 echo -e "✅ ${GREEN}All tasks completed successfully"
 echo -e "${MAGENTA}🎉 Mission Accomplished! Keep coding like a ninja! 🚀${RESET}"
