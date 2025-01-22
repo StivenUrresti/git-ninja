@@ -157,7 +157,7 @@ check_upstream
 read -p "⬆️  Push changes to remote? (y/n) [y]: " push_changes
 push_changes=${push_changes:-y}
 if [[ "$push_changes" == "y" ]]; then
-    start_loading "Pushing changes to remote..."
+    start_loading "Pushing changes to remote.."
     git push
 else
     echo -e "${RED}❌ Push cancelled.${RESET}"
