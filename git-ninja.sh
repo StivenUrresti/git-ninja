@@ -139,31 +139,6 @@ if [[ -n "$tag" ]]; then
     echo -e "${GREEN}✅ Tag '${BOLD}$tag${RESET}${GREEN}' added to commit.${RESET}"
 fi
 
-# Verificar si la rama local tiene un upstream configurado
-check_upstream() {
-    current_branch=$(git rev-parse --abbrev-ref HEAD)
-    upstream=$(git rev-parse --abbrev-ref "$current_branch@{u}" 2>/dev/null)
-    
-    if [ -z "$upstream" ]; then
-        echo -e "${YELLOW}⚠️  No upstream branch found for ${current_branch}.${RESET}"
-        echo -e "${CYAN}You need to set the upstream before pushing. Running: ${GREEN}git push --set-upstream origin ${current_branch}${RESET}"
-        read -p "Do you want to do that now? (y/n) [y]: " set_upstream
-        set_upstream=${set_upstream:-y}
-        if [[ "$set_upstream" == "y" ]]; then
-            git push --set-upstream origin "$current_branch"
-            echo -e "${GREEN}✅ Upstream set and push completed.${RESET}"
-        else
-            echo -e "${RED}❌ Skipping upstream setup and push.${RESET}"
-            exit 1
-        fi
-    else
-        echo -e "${GREEN}✔ Upstream branch is already set for ${current_branch}.${RESET}"
-    fi
-}
-
-# Llamada a la función para verificar y configurar el upstream si es 
-check_upstream
-
 read -p "⬆️  Push changes to remote? (y/n) [y]: " push_changes
 push_changes=${push_changes:-y}
 if [[ "$push_changes" == "y" ]]; then
