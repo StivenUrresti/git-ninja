@@ -133,20 +133,18 @@ if [[ -n "$uncommitted_changes" ]]; then
     fi
 fi
 
+read -p "🔖 Do you want to tag this commit? (Optional, press Enter to skip): " tag
+if [[ -n "$tag" ]]; then
+    git tag "$tag"
+    echo -e "${GREEN}✅ Tag '${BOLD}$tag${RESET}${GREEN}' added to commit.${RESET}"
+fi
+
 read -p "⬆️  Push changes to remote? (y/n) [y]: " push_changes
 push_changes=${push_changes:-y}
 if [[ "$push_changes" == "y" ]]; then
-    upstream_configured=$(git rev-parse --abbrev-ref --symbolic-full-name @{u} 2>/dev/null)
-
-    if [[ -z "$upstream_configured" ]]; then
-        echo -e "${YELLOW}⚠️  Upstream not configured for branch '${current_branch}'. Setting upstream to 'origin/${current_branch}'...${RESET}"
-        git branch --set-upstream-to=origin/"$current_branch" "$current_branch"
-        echo -e "${GREEN}✅ Upstream configured successfully.${RESET}"
-    fi
-
     start_loading "Pushing changes to remote..."
     git push
-    stop_loading "Changes pushed successfullyyy"
+    stop_loading "Changes pushed successfully"
 else
     echo -e "${RED}❌ Push cancelled.${RESET}"
 fi
