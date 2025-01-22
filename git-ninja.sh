@@ -161,7 +161,7 @@ check_upstream() {
     fi
 }
 
-# Llamada a la función para verificar y configurar el upstream si es necesario
+# Llamada a la función para verificar y configurar el upstream si es 
 check_upstream
 
 read -p "⬆️  Push changes to remote? (y/n) [y]: " push_changes
