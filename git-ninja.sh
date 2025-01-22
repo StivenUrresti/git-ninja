@@ -136,7 +136,6 @@ fi
 read -p "⬆️  Push changes to remote? (y/n) [y]: " push_changes
 push_changes=${push_changes:-y}
 if [[ "$push_changes" == "y" ]]; then
-    # Check if the current branch has an upstream configured
     upstream_configured=$(git rev-parse --abbrev-ref --symbolic-full-name @{u} 2>/dev/null)
 
     if [[ -z "$upstream_configured" ]]; then
