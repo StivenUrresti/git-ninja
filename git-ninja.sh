@@ -146,7 +146,7 @@ if [[ "$push_changes" == "y" ]]; then
 
     start_loading "Pushing changes to remote..."
     git push
-    stop_loading "Changes pushed successfully"
+    stop_loading "Changes pushed successfullyyy"
 else
     echo -e "${RED}❌ Push cancelled.${RESET}"
 fi
