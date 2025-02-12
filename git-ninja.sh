@@ -35,7 +35,7 @@ stop_loading() {
     printf "\r${GREEN}${BOLD}✔ $1${RESET}\n"
 }
 
-# Clear screen and print heade
+# Clear screen and print header
 clear
 cat << EOF
 
