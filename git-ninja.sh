@@ -50,8 +50,7 @@ EOF
 
 echo -e "Silent as a shadow, swift as the wind. Automate Git like a true ninja! ⚡"
 echo -e "🔥 ${GREEN}${BOLD}Welcome to Git Ninja!${RESET} 🚀"
-
-echo -e "${CYAN}Checking Git repository...${RESET}"
+echo -e "${CYAN}Streamline your commits, branches, and more with ease.${RESET}"
 
 set -e
 
@@ -61,30 +60,39 @@ if ! git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
     exit 1
 fi
 
-current_branch=$(git rev-parse --abbrev-ref HEAD)
+# Ask user whether to pull or push
+echo -e "What do you want to do?"
+read -p "Type 'push' to push changes or 'pull' to pull changes: " action
 
-echo -e "🔢 ${CYAN}Current branch:${RESET} $current_branch"
+action=${action,,} # Convert to lowercase
 
-# Stage all changes
-git add .
-
-echo -e "${GREEN}✅ Changes staged.${RESET}"
-
-# Commit changes
-default_message="Auto-commit: $(date +"%Y-%m-%d %H:%M:%S")"
-git commit -m "$default_message"
-
-echo -e "${GREEN}✅ Changes committed with message: '$default_message'.${RESET}"
-
-# Check if the branch has an upstream
-if ! git rev-parse --abbrev-ref --symbolic-full-name @{u} > /dev/null 2>&1; then
-    echo -e "${YELLOW}⚠️  No upstream detected. Setting upstream...${RESET}"
-    git push --set-upstream origin "$current_branch"
-else
-    start_loading "Pushing changes to remote..."
-    git push
-    stop_loading "Changes pushed successfully"
+if [[ "$action" == "pull" ]]; then
+    read -p "Enter the branch name you want to pull from: " branch
+    start_loading "Pulling changes from $branch..."
+    git pull origin "$branch"
+    stop_loading "Pull completed successfully"
+    exit 0
 fi
 
-echo -e "✅ ${GREEN}All tasks completed successfully!${RESET}"
+# Proceed with push process
+if ! git remote get-url origin > /dev/null 2>&1; then
+    echo -e "${RED}❌ Error:${RESET} No remote repository configured. Please add a remote origin first."
+    exit 1
+fi
+
+start_loading "Fetching repository information..."
+repo_name=$(basename "$(git rev-parse --show-toplevel)")
+remote_url=$(git remote get-url origin)
+current_branch=$(git rev-parse --abbrev-ref HEAD)
+stop_loading "Repository information retrieved"
+
+echo -e "🗂️  ${CYAN}Repository:${RESET} $repo_name"
+echo -e "🌐 ${CYAN}Remote URL:${RESET} $remote_url"
+echo -e "🔢 ${CYAN}Current branch:${RESET} $current_branch"
+
+start_loading "Pushing changes to remote..."
+git push -u origin "$current_branch"
+stop_loading "Push completed successfully"
+
+echo -e "✅ ${GREEN}All tasks completed successfully"
 echo -e "${MAGENTA}🎉 Mission Accomplished! Keep coding like a ninja! 🚀${RESET}"
