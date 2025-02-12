@@ -35,7 +35,7 @@ stop_loading() {
     printf "\r${GREEN}${BOLD}✔ $1${RESET}\n"
 }
 
-
+# Clear screen and print header
 clear
 cat << EOF
 
@@ -54,22 +54,19 @@ echo -e "${CYAN}Streamline your commits, branches, and more with ease.${RESET}"
 
 set -e
 
-
+# Check if the current directory is a Git repository
 if ! git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
     echo -e "${RED}❌ Error:${RESET} This is not a Git repository."
     exit 1
 fi
 
-
+# Ask user whether to pull or push
 echo -e "What do you want to do?"
 read -p "Type 'push' to push changes or 'pull' to pull changes: " action
 
-echo "$action" | tr '[:upper:]' '[:lower:]'
+echo "$action" | tr '[:upper:]' '[:lower:]' # Convert to lowercase
 
 if [[ "$action" == "pull" ]]; then
-    
-    git config pull.rebase false
-    
     read -p "Enter the branch name you want to pull from: " branch
     start_loading "Pulling changes from $branch..."
     git pull origin "$branch"
