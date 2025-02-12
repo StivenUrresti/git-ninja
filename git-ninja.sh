@@ -86,7 +86,7 @@ if ! git diff --quiet || ! git diff --cached --quiet; then
     echo -e "📝 ${YELLOW}There are uncommitted changes.${RESET}"
     read -p "Enter your commit message: " commit_message
 
-    # Agregar y hacer commit
+    # Agregar y hacer committt
     git add .
     git commit -m "$commit_message"
 else
