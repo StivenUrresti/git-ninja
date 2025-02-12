@@ -24,18 +24,19 @@ if ! command -v fzf &> /dev/null; then
     if [[ "$OSTYPE" == "linux-gnu"* ]]; then
         sudo apt update && sudo apt install -y fzf
     elif [[ "$OSTYPE" == "darwin"* ]]; then
-        brew install fzf  # ❌ No uses sudo aquí
+        brew install fzf  # ⚠️ No uses sudo aquí, Homebrew no lo permite
     else
         echo -e "${RED}❌ Unsupported OS. Please install 'fzf' manually.${RESET}"
         exit 1
     fi
-    
-    # Verifica si la instalación fue exitosa
+
+    # Verificar si fzf se instaló correctamente
     if ! command -v fzf &> /dev/null; then
         echo -e "${RED}❌ fzf installation failed.${RESET} Please install it manually and try again."
         exit 1
     fi
 fi
+
 
 
 echo -e "${GREEN}✅ fzf installed successfully!${RESET}"
