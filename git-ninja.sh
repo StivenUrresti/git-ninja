@@ -35,7 +35,7 @@ stop_loading() {
     printf "\r${GREEN}${BOLD}✔ $1${RESET}\n"
 }
 
-# Clear screen and print header
+# Clear screen and print heade
 clear
 cat << EOF
 
@@ -64,7 +64,7 @@ fi
 echo -e "What do you want to do?"
 read -p "Type 'push' to push changes or 'pull' to pull changes: " action
 
-action=${action,,} # Convert to lowercase
+echo "$action" | tr '[:upper:]' '[:lower:]' # Convert to lowercase
 
 if [[ "$action" == "pull" ]]; then
     read -p "Enter the branch name you want to pull from: " branch
