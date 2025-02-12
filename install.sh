@@ -1,4 +1,3 @@
-
 GREEN="\033[32m"
 YELLOW="\033[33m"
 RED="\033[31m"
@@ -17,6 +16,22 @@ if [[ "$EUID" -ne 0 ]]; then
 fi
 
 echo -e "${BOLD}🔧 Installing Git Ninja for global usage...${RESET}"
+
+# Check if fzf is installed, if not, install it
+if ! command -v fzf &> /dev/null; then
+    echo -e "${YELLOW}⚠️ fzf not found. Installing fzf...${RESET}"
+    
+    if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        sudo apt update && sudo apt install -y fzf
+    elif [[ "$OSTYPE" == "darwin"* ]]; then
+        brew install fzf
+    else
+        echo -e "${RED}❌ Unsupported OS. Please install 'fzf' manually.${RESET}"
+        exit 1
+    fi
+fi
+
+echo -e "${GREEN}✅ fzf installed successfully!${RESET}"
 
 echo -e "🌐 Downloading Git Ninja script from $REPO_URL..."
 curl -fsSL "$REPO_URL" -o "$SCRIPT_NAME"
