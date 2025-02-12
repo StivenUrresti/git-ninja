@@ -68,11 +68,24 @@ echo "$action" | tr '[:upper:]' '[:lower:]' # Convert to lowercase
 
 if [[ "$action" == "pull" ]]; then
     read -p "Enter the branch name you want to pull from: " branch
+
+    # Configurar Git para que siempre haga merge en los pulls
+    git config pull.rebase false
+
     start_loading "Pulling changes from $branch..."
-    git pull origin "$branch"
+    git pull origin "$branch" || { stop_loading "❌ Pull failed due to conflicts"; exit 1; }
     stop_loading "Pull completed successfully"
+
+    # Verificar si hay conflictos de merge
+    if git status --porcelain | grep -q "^UU"; then
+        echo -e "${RED}❌ Merge conflict detected!${RESET}"
+        echo -e "Please resolve conflicts manually before proceeding."
+        exit 1
+    fi
+
     exit 0
 fi
+
 
 if ! git remote get-url origin > /dev/null 2>&1; then
     echo -e "${RED}❌ Error:${RESET} No remote repository configured. Please add a remote origin first."
