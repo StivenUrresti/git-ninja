@@ -74,19 +74,15 @@ if [[ "$action" == "pull" ]]; then
     exit 0
 fi
 
-# Proceed with push process
-# Proceed with push process
 if ! git remote get-url origin > /dev/null 2>&1; then
     echo -e "${RED}❌ Error:${RESET} No remote repository configured. Please add a remote origin first."
     exit 1
 fi
 
-# Verificar si hay cambios pendientes
 if ! git diff --quiet || ! git diff --cached --quiet; then
     echo -e "📝 ${YELLOW}There are uncommitted changes.${RESET}"
     read -p "Enter your commit message: " commit_message
 
-    # Agregar y hacer committt
     git add .
     git commit -m "$commit_message"
 else
