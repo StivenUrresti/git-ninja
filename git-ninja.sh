@@ -67,6 +67,9 @@ read -p "Type 'push' to push changes or 'pull' to pull changes: " action
 echo "$action" | tr '[:upper:]' '[:lower:]'
 
 if [[ "$action" == "pull" ]]; then
+    
+    git config pull.rebase false
+    
     read -p "Enter the branch name you want to pull from: " branch
     start_loading "Pulling changes from $branch..."
     git pull origin "$branch"
